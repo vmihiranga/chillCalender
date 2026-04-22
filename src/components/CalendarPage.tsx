@@ -134,32 +134,32 @@ export default function CalendarPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       {/* ── Top Nav ── */}
-      <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-4 py-4 bg-white border-b border-gray-200 calendar-header sm:px-6">
+      <header className="sticky top-0 z-30 flex items-center justify-between h-14 px-4 py-2 bg-white/80 backdrop-blur-lg border-b border-gray-100 calendar-header sm:px-6">
         {/* Logo + title */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 shadow-md shadow-orange-200">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 shadow-md shadow-orange-200">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
               <rect x="3" y="4" width="18" height="18" rx="2"/>
               <path d="M16 2v4M8 2v4M3 10h18"/>
             </svg>
           </div>
-          <span className="text-lg font-extrabold tracking-tight text-gray-900 hidden sm:inline">
-            ChillRide <span className="text-orange-500">Manage</span>
+          <span className="text-base font-black tracking-tight text-gray-900">
+            Chill <span className="text-orange-500">Calendar</span>
           </span>
         </div>
 
         {/* Month navigation */}
-        <div className="flex items-center gap-2 month-nav">
-          <button className="p-2 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-600" onClick={prevMonth}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <div className="flex items-center gap-1 month-nav">
+          <button className="p-1.5 transition-colors border border-gray-100 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-orange-500" onClick={prevMonth}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6"/>
             </svg>
           </button>
-          <span className="text-base font-bold text-gray-800 min-w-[140px] text-center">
+          <span className="text-sm font-black text-gray-800 min-w-[120px] text-center">
             {MONTH_NAMES[month]} {year}
           </span>
-          <button className="p-2 transition-colors border border-gray-200 rounded-lg hover:bg-gray-50 text-gray-600" onClick={nextMonth}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <button className="p-1.5 transition-colors border border-gray-100 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-orange-500" onClick={nextMonth}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M9 18l6-6-6-6"/>
             </svg>
           </button>
@@ -171,22 +171,22 @@ export default function CalendarPage() {
           <div className="flex items-center gap-1.5 p-1.5 bg-gray-50 border border-gray-100 rounded-xl mr-2">
             <button
               onClick={() => setZoom(z => Math.max(0.6, z - 0.2))}
-              className="p-1.5 text-gray-400 hover:text-orange-500 hover:bg-white rounded-lg transition-all active:scale-90"
+              className="p-1 text-gray-400 hover:text-orange-500 hover:bg-white rounded-lg transition-all active:scale-90"
               title="Zoom Out"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                 <path d="M5 12h14"/>
               </svg>
             </button>
-            <span className="text-[10px] font-black w-8 text-center text-gray-400">
+            <span className="text-[9px] font-black w-7 text-center text-gray-400">
               {Math.round(zoom * 100)}%
             </span>
             <button
               onClick={() => setZoom(z => Math.min(1.6, z + 0.2))}
-              className="p-1.5 text-gray-400 hover:text-orange-500 hover:bg-white rounded-lg transition-all active:scale-90"
+              className="p-1 text-gray-400 hover:text-orange-500 hover:bg-white rounded-lg transition-all active:scale-90"
               title="Zoom In"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                 <path d="M12 5v14M5 12h14"/>
               </svg>
             </button>
@@ -194,17 +194,17 @@ export default function CalendarPage() {
 
           {isAdmin ? (
             <>
-              <button className="hidden px-4 py-2 text-sm font-semibold text-gray-600 transition-colors border border-gray-200 rounded-lg lg:inline-flex hover:bg-gray-50" onClick={goToday}>
+              <button className="hidden px-3 py-1.5 text-xs font-bold text-gray-600 transition-colors border border-gray-100 rounded-lg lg:inline-flex hover:bg-gray-50" onClick={goToday}>
                 Today
               </button>
-              <button className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-white transition-all bg-orange-500 rounded-lg hover:bg-orange-600 shadow-lg shadow-orange-100" onClick={() => openCreateModal()}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+              <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-black text-white transition-all bg-orange-500 rounded-lg hover:bg-orange-600 shadow-lg shadow-orange-100" onClick={() => openCreateModal()}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                   <path d="M12 5v14M5 12h14"/>
                 </svg>
-                <span className="hidden md:inline">Add Event</span>
+                <span>Event</span>
               </button>
-              <button onClick={handleLogout} className="p-2 text-gray-400 hover:text-orange-500 transition-colors" title="Logout Admin">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <button onClick={handleLogout} className="p-1.5 text-gray-400 hover:text-orange-500 transition-colors" title="Logout Admin">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
                 </svg>
               </button>
@@ -212,12 +212,12 @@ export default function CalendarPage() {
           ) : (
             <button
               onClick={() => setShowLogin(true)}
-              className="flex items-center gap-2 px-5 py-2 text-sm font-bold text-orange-600 border-2 border-orange-100 rounded-xl hover:bg-orange-50 transition-all active:scale-95"
+              className="flex items-center justify-center w-9 h-9 text-orange-600 bg-orange-50 border border-orange-100 rounded-xl hover:bg-orange-100 transition-all active:scale-95 shadow-sm"
+              title="Admin Login"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
               </svg>
-              Admin Login
             </button>
           )}
         </div>

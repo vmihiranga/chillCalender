@@ -5,8 +5,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'ChillRide Management — Calendar',
-  description: 'A sleek Google Calendar-style event scheduling app for ChillRide.',
+  title: 'Chill Calendar',
+  description: 'Your premium event scheduling app',
   keywords: ['calendar', 'events', 'scheduling', 'chillride'],
   openGraph: {
     title: 'ChillRide Management',
