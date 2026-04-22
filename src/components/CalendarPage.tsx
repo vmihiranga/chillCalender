@@ -20,6 +20,7 @@ export default function CalendarPage() {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [zoom, setZoom] = useState(1); // 1 = 100%
 
   // Drawer (day events sidebar)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -166,6 +167,31 @@ export default function CalendarPage() {
 
         {/* Actions */}
         <div className="flex items-center gap-2 calendar-header-actions">
+          {/* Zoom Controls */}
+          <div className="flex items-center gap-1.5 p-1.5 bg-gray-50 border border-gray-100 rounded-xl mr-2">
+            <button
+              onClick={() => setZoom(z => Math.max(0.6, z - 0.2))}
+              className="p-1.5 text-gray-400 hover:text-orange-500 hover:bg-white rounded-lg transition-all active:scale-90"
+              title="Zoom Out"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <path d="M5 12h14"/>
+              </svg>
+            </button>
+            <span className="text-[10px] font-black w-8 text-center text-gray-400">
+              {Math.round(zoom * 100)}%
+            </span>
+            <button
+              onClick={() => setZoom(z => Math.min(1.6, z + 0.2))}
+              className="p-1.5 text-gray-400 hover:text-orange-500 hover:bg-white rounded-lg transition-all active:scale-90"
+              title="Zoom In"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+            </button>
+          </div>
+
           {isAdmin ? (
             <>
               <button className="hidden px-4 py-2 text-sm font-semibold text-gray-600 transition-colors border border-gray-200 rounded-lg lg:inline-flex hover:bg-gray-50" onClick={goToday}>
@@ -230,6 +256,7 @@ export default function CalendarPage() {
           events={events}
           selectedDate={selectedDate}
           onDayClick={handleDayClick}
+          zoom={zoom}
         />
       </main>
 

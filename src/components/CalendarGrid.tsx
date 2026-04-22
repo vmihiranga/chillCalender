@@ -8,6 +8,7 @@ interface CalendarGridProps {
   events: Event[];
   selectedDate: Date | null;
   onDayClick: (date: Date) => void;
+  zoom?: number;
 }
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -38,6 +39,7 @@ export default function CalendarGrid({
   events,
   selectedDate,
   onDayClick,
+  zoom = 1,
 }: CalendarGridProps) {
   const today = new Date();
   const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
@@ -52,14 +54,20 @@ export default function CalendarGrid({
   // Pad to full weeks
   while (cells.length % 7 !== 0) cells.push(null);
 
+  // Dynamic values based on zoom
+  const baseHeight = 100 * zoom; 
+  const fontSizeFactor = zoom < 0.8 ? 'text-[0.6rem]' : zoom > 1.2 ? 'text-sm' : 'text-xs';
+  const pillVisibilityCount = zoom < 0.8 ? 1 : zoom > 1.4 ? 4 : 2;
+
   return (
-    <div className="flex flex-col flex-1 overflow-hidden">
+    <div className="flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
       {/* Weekday headers */}
-      <div className="grid grid-cols-7 border-b border-gray-100 bg-gray-50/30">
+      <div className="grid grid-cols-7 border-b border-gray-100 bg-gray-50/30 sticky top-0 z-10 backdrop-blur-sm">
         {WEEKDAYS.map((d) => (
           <div
             key={d}
             className="py-3 text-[10px] font-extrabold text-center text-gray-400 uppercase tracking-[0.15em]"
+            style={{ fontSize: `${10 * zoom}px` }}
           >
             {d}
           </div>
@@ -67,7 +75,7 @@ export default function CalendarGrid({
       </div>
 
       {/* Day cells */}
-      <div className="grid flex-1 grid-cols-7 auto-rows-fr">
+      <div className="grid grid-cols-7 flex-1 min-w-[300px]">
         {cells.map((day, idx) => {
           if (day === null) {
             return (
@@ -78,6 +86,7 @@ export default function CalendarGrid({
                   ${(idx + 1) % 7 !== 0 ? 'border-r border-gray-100' : ''}
                   ${idx < cells.length - 7 ? 'border-b border-gray-100' : ''}
                 `}
+                style={{ minHeight: `${baseHeight}px` }}
               />
             );
           }
@@ -98,60 +107,65 @@ export default function CalendarGrid({
                 ${idx < cells.length - 7 ? 'border-b border-gray-100' : ''}
                 ${isSelected ? 'bg-orange-50/50' : 'hover:bg-gray-50'}
               `}
-              style={{ minHeight: 'clamp(80px, 12vh, 140px)' }}
+              style={{ minHeight: `${baseHeight}px` }}
             >
               {/* Day number */}
-              <div className="flex items-start justify-between w-100">
+              <div className="flex items-start justify-between w-full">
                 <span
                   className={`
-                    flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs sm:text-sm font-bold
+                    flex items-center justify-center rounded-full font-bold
                     transition-transform group-hover:scale-110
                     ${isToday ? 'bg-orange-500 text-white shadow-lg shadow-orange-200' : ''}
                     ${!isToday && isSelected ? 'text-orange-600' : ''}
-                    ${!isToday && !isSelected ? (isPast ? 'text-gray-300' : 'text-gray-700') : ''}
+                    ${!isToday && !isSelected ? (isPast ? 'text-gray-300' : 'text-gray-600') : ''}
                   `}
+                  style={{ 
+                    width: `${30 * Math.max(0.8, zoom)}px`, 
+                    height: `${30 * Math.max(0.8, zoom)}px`,
+                    fontSize: `${13 * zoom}px` 
+                  }}
                 >
                   {day}
                 </span>
               </div>
 
-              {/* Event dots / pills */}
-              <div className="flex flex-col w-full gap-1 mt-1 sm:mt-2">
-                {/* Mobile View (Dots) */}
-                <div className="flex flex-wrap gap-1 md:hidden">
-                  {dayEvents.slice(0, 4).map((ev) => (
-                    <div
-                      key={ev.id}
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{ background: ev.color }}
-                    />
-                  ))}
-                  {dayEvents.length > 4 && (
-                    <div className="w-1 h-1 bg-gray-300 rounded-full" />
-                  )}
-                </div>
-
-                {/* Desktop View (Pills) */}
-                <div className="hidden space-y-1 md:block">
-                  {dayEvents.slice(0, 2).map((ev) => (
-                    <div
-                      key={ev.id}
-                      className="px-1.5 py-0.5 text-[10px] font-bold rounded border-l-2 truncate transition-transform hover:translate-x-0.5"
-                      style={{
-                        background: `${ev.color}15`,
-                        borderLeftColor: ev.color,
-                        color: ev.color,
-                      }}
-                    >
-                      {ev.title}
-                    </div>
-                  ))}
-                  {dayEvents.length > 2 && (
-                    <div className="px-1 text-[9px] font-bold text-gray-400">
-                      + {dayEvents.length - 2} more
-                    </div>
-                  )}
-                </div>
+              {/* Event indications */}
+              <div className="flex flex-col w-full gap-1 mt-1">
+                {/* Mobile/Compact Dots */}
+                {zoom < 0.9 ? (
+                  <div className="flex flex-wrap gap-1">
+                    {dayEvents.slice(0, 4).map((ev) => (
+                      <div
+                        key={ev.id}
+                        className="rounded-full shadow-sm"
+                        style={{ background: ev.color, width: `${4 * zoom}px`, height: `${4 * zoom}px` }}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  /* Standard/Zoomed Pills */
+                  <div className="w-full space-y-1">
+                    {dayEvents.slice(0, pillVisibilityCount).map((ev) => (
+                      <div
+                        key={ev.id}
+                        className={`px-1.5 py-0.5 font-bold rounded border-l-2 truncate transition-all group-hover:translate-x-0.5 ${fontSizeFactor}`}
+                        style={{
+                          background: `${ev.color}15`,
+                          borderLeftColor: ev.color,
+                          color: ev.color,
+                          fontSize: `${9 * zoom}px`
+                        }}
+                      >
+                        {ev.title}
+                      </div>
+                    ))}
+                    {dayEvents.length > pillVisibilityCount && (
+                      <div className="px-1 font-black text-gray-300" style={{ fontSize: `${8 * zoom}px` }}>
+                        + {dayEvents.length - pillVisibilityCount}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </button>
           );
