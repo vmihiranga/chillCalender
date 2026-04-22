@@ -21,6 +21,8 @@ export default function CalendarPage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [zoom, setZoom] = useState(1); // 1 = 100%
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBtn, setShowInstallBtn] = useState(false);
 
   // Drawer (day events sidebar)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -61,7 +63,30 @@ export default function CalendarPage() {
   useEffect(() => {
     checkAdminStatus();
     fetchEvents();
+
+    // PWA Install logic
+    const handleBeforeInstallPrompt = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBtn(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
   }, [checkAdminStatus, fetchEvents]);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setShowInstallBtn(false);
+    }
+    setDeferredPrompt(null);
+  };
 
   const handleLogout = async () => {
     await fetch('/api/auth', {
@@ -192,7 +217,20 @@ export default function CalendarPage() {
             </button>
           </div>
 
-          {isAdmin ? (
+          <div className="flex items-center gap-2">
+            {showInstallBtn && (
+              <button
+                onClick={handleInstallClick}
+                className="flex items-center justify-center w-9 h-9 text-orange-600 bg-orange-100 border border-orange-200 rounded-xl hover:bg-orange-200 transition-all active:scale-95 shadow-sm animate-bounce-subtle"
+                title="Install App"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                </svg>
+              </button>
+            )}
+
+            {isAdmin ? (
             <>
               <button className="hidden px-3 py-1.5 text-xs font-bold text-gray-600 transition-colors border border-gray-100 rounded-lg lg:inline-flex hover:bg-gray-50" onClick={goToday}>
                 Today

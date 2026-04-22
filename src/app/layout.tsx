@@ -7,6 +7,8 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 export const metadata: Metadata = {
   title: 'Chill Calendar',
   description: 'Your premium event scheduling app',
+  manifest: '/manifest.json',
+  themeColor: '#f97316',
   keywords: ['calendar', 'events', 'scheduling', 'chillride'],
   openGraph: {
     title: 'ChillRide Management',
