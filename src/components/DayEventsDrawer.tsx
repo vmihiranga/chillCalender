@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Event } from '@/lib/types';
 
 interface DayEventsDrawerProps {
@@ -35,14 +36,27 @@ export default function DayEventsDrawer({
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  const isToday = (() => {
-    const today = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Colombo' }));
-    return (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
+  const [isToday, setIsToday] = useState(false);
+
+  useEffect(() => {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Colombo',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric'
+    }).formatToParts(new Date());
+
+    const getPart = (type: string) => parseInt(parts.find(p => p.type === type)?.value || '0');
+    const todayY = getPart('year');
+    const todayM = getPart('month') - 1;
+    const todayD = getPart('day');
+
+    setIsToday(
+      date.getDate() === todayD &&
+      date.getMonth() === todayM &&
+      date.getFullYear() === todayY
     );
-  })();
+  }, [date]);
 
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-end pointer-events-none sm:items-stretch">

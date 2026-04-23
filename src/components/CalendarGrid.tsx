@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Event } from '@/lib/types';
 
 interface CalendarGridProps {
@@ -41,8 +42,20 @@ export default function CalendarGrid({
   onDayClick,
   zoom = 1,
 }: CalendarGridProps) {
-  // Get today's date in Asia/Colombo
-  const today = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Colombo' }));
+  const [today, setToday] = useState<Date | null>(null);
+
+  useEffect(() => {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Colombo',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric'
+    }).formatToParts(new Date());
+
+    const getPart = (type: string) => parseInt(parts.find(p => p.type === type)?.value || '0');
+    setToday(new Date(getPart('year'), getPart('month') - 1, getPart('day')));
+  }, []);
+
   const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const eventsByDay = getEventsByDay(events, year, month);
@@ -93,10 +106,10 @@ export default function CalendarGrid({
           }
 
           const cellDate = new Date(year, month, day);
-          const isToday = isSameDay(cellDate, today);
+          const isToday = today ? isSameDay(cellDate, today) : false;
           const isSelected = selectedDate && isSameDay(cellDate, selectedDate);
           const dayEvents = eventsByDay[day] || [];
-          const isPast = cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+          const isPast = today ? cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate()) : false;
 
           return (
             <button

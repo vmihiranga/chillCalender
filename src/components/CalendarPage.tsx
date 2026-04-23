@@ -61,10 +61,18 @@ export default function CalendarPage() {
   }, [year, month]);
 
   useEffect(() => {
-    // Correctly initialize with user's local time (adjusted to Colombo) after mount
-    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Colombo' }));
-    setYear(now.getFullYear());
-    setMonth(now.getMonth());
+    // Robust way to get Colombo time parts
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Colombo',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric'
+    }).formatToParts(new Date());
+
+    const getPart = (type: string) => parseInt(parts.find(p => p.type === type)?.value || '0');
+    
+    setYear(getPart('year'));
+    setMonth(getPart('month') - 1); // Intl months are 1-indexed
 
     checkAdminStatus();
     fetchEvents();
@@ -165,10 +173,18 @@ export default function CalendarPage() {
   };
 
   const goToday = () => {
-    const colomboNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Colombo' }));
-    setYear(colomboNow.getFullYear());
-    setMonth(colomboNow.getMonth());
-    setSelectedDate(new Date(colomboNow.getFullYear(), colomboNow.getMonth(), colomboNow.getDate()));
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Colombo', year: 'numeric', month: 'numeric', day: 'numeric' });
+    const parts = formatter.formatToParts(now);
+    const getPart = (type: string) => parseInt(parts.find(p => p.type === type)?.value || '0');
+    
+    const y = getPart('year');
+    const m = getPart('month') - 1;
+    const d = getPart('day');
+
+    setYear(y);
+    setMonth(m);
+    setSelectedDate(new Date(y, m, d));
   };
 
   const handleDayClick = (date: Date) => {
