@@ -13,9 +13,8 @@ const MONTH_NAMES = [
 ];
 
 export default function CalendarPage() {
-  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Colombo' }));
-  const [year, setYear] = useState(now.getFullYear());
-  const [month, setMonth] = useState(now.getMonth());
+  const [year, setYear] = useState(2026);
+  const [month, setMonth] = useState(3); // April
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -62,6 +61,11 @@ export default function CalendarPage() {
   }, [year, month]);
 
   useEffect(() => {
+    // Correctly initialize with user's local time (adjusted to Colombo) after mount
+    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Colombo' }));
+    setYear(now.getFullYear());
+    setMonth(now.getMonth());
+
     checkAdminStatus();
     fetchEvents();
 
@@ -75,7 +79,7 @@ export default function CalendarPage() {
 
     // Notifications Check Loop
     const interval = setInterval(() => {
-      if (typeof window !== 'undefined' && Notification.permission === 'granted' && events.length > 0) {
+      if (typeof window !== 'undefined' && typeof Notification !== 'undefined' && Notification.permission === 'granted' && events.length > 0) {
         const nowMs = Date.now();
         
         events.forEach((ev) => {
@@ -89,7 +93,7 @@ export default function CalendarPage() {
           ];
 
           levels.forEach((lvl) => {
-            // If we are within the threshold window (up to 5 mins past it) and haven't notified for this level yet
+            // If we are within the threshold window (up to 10 mins past it) and haven't notified for this level yet
             if (diffMin > 0 && diffMin <= lvl.threshold && diffMin > lvl.threshold - 10) {
               const alreadySent = sentReminders[ev.id] || [];
               if (!alreadySent.includes(lvl.id)) {
@@ -115,13 +119,13 @@ export default function CalendarPage() {
   }, [checkAdminStatus, fetchEvents, events, sentReminders]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && Notification.permission === 'granted') {
+    if (typeof window !== 'undefined' && typeof Notification !== 'undefined' && Notification.permission === 'granted') {
       setNotificationsEnabled(true);
     }
   }, []);
 
   const requestNotificationPermission = async () => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || typeof Notification === 'undefined') return;
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
       setNotificationsEnabled(true);
