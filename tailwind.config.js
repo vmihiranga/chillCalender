@@ -13,48 +13,33 @@ module.exports = {
       },
       colors: {
         surface: {
-          DEFAULT: '#f9fafb', // Gray 50
-          1: '#ffffff',
-          2: '#f3f4f6', // Gray 100
-          3: '#e5e7eb', // Gray 200
+          DEFAULT: 'rgba(255, 255, 255, 0.7)',
+          1: 'rgba(255, 255, 255, 0.8)',
+          2: 'rgba(255, 255, 255, 0.4)',
+          3: 'rgba(243, 244, 246, 0.6)',
         },
         accent: {
-          DEFAULT: '#f97316', // Orange 500
-          hover: '#ea580c', // Orange 600
-          soft: 'rgba(249, 115, 22, 0.1)',
+          DEFAULT: '#ff6b00',
+          hover: '#e66000',
+          soft: 'rgba(255, 107, 0, 0.1)',
         },
         border: {
-          DEFAULT: '#e5e7eb',
-          strong: '#d1d5db',
+          DEFAULT: 'rgba(0, 0, 0, 0.05)',
+          strong: 'rgba(0, 0, 0, 0.1)',
         },
       },
       animation: {
-        'fade-in': 'fadeIn 0.2s ease-out',
-        'slide-up': 'slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-        'scale-in': 'scaleIn 0.15s ease-out',
-        'shimmer': 'shimmer 2s infinite linear',
-        'slide-in-right': 'slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'fade-in': 'none',
+        'slide-up': 'none',
+        'scale-in': 'none',
+        'shimmer': 'none',
+        'slide-in-right': 'none',
       },
       keyframes: {
+        // Keeping keyframes in case needed for specific manual transitions
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px) scale(0.97)' },
-          '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
-        },
-        scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.95)' },
-          '100%': { opacity: '1', transform: 'scale(1)' },
-        },
-        shimmer: {
-          '0%': { transform: 'translateX(-100%)' },
-          '100%': { transform: 'translateX(100%)' },
-        },
-        slideInRight: {
-          '0%': { opacity: '0', transform: 'translateX(40px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
         },
       },
     },

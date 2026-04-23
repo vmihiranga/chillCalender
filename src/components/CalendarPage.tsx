@@ -239,21 +239,21 @@ export default function CalendarPage() {
       {/* ── Top Nav ── */}
       <header className="sticky top-0 z-30 flex items-center justify-between h-14 px-4 py-2 bg-white border-b border-gray-100 sm:px-6">
         <div className="flex items-center gap-1.5 min-w-0">
-          <div className="flex items-center justify-center w-6 h-6 text-white bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg shadow-sm">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+          <div className="flex items-center justify-center w-8 h-8 text-white bg-accent rounded-xl shadow-lg shadow-accent/20">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
               <path d="M16 2v4M8 2v4M3 10h18"/>
             </svg>
           </div>
-          <span className="text-[13px] font-black tracking-tight text-gray-900 hidden sm:inline">
-            Chill <span className="text-orange-500">Calendar</span>
+          <span className="text-sm font-black tracking-tight text-gray-900 hidden sm:inline">
+            Chill <span className="text-accent">Calendar</span>
           </span>
         </div>
 
         {/* Search Bar - Hidden on Mobile */}
         <div className="flex-1 max-w-xs mx-4 hidden lg:block">
           <div className="relative group">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-500 transition-colors" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-accent transition-colors" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
             </svg>
             <input
@@ -261,21 +261,21 @@ export default function CalendarPage() {
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-sm bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:ring-4 focus:ring-orange-50 focus:border-orange-500 outline-none transition-all placeholder:text-gray-300"
+              className="w-full pl-10 pr-4 py-2.5 text-sm bg-white/40 border border-black/5 rounded-2xl focus:bg-white focus:ring-4 focus:ring-accent/5 focus:border-accent outline-none transition-all placeholder:text-gray-400 backdrop-blur-md"
             />
           </div>
         </div>
 
         <div className="flex items-center gap-0.5 sm:gap-1">
-          <button className="p-1 transition-colors border border-gray-50 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-orange-500" onClick={prevMonth}>
+          <button className="p-1.5 transition-colors border border-black/5 rounded-xl hover:bg-white text-gray-400 hover:text-accent" onClick={prevMonth}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M15 18l-6-6 6-6"/>
             </svg>
           </button>
-          <div className="px-2 text-xs font-black text-gray-700 min-w-[100px] text-center">
+          <div className="px-2 text-sm font-black text-gray-800 min-w-[120px] text-center">
             {MONTH_NAMES[month]} {year}
           </div>
-          <button className="p-1 transition-colors border border-gray-50 rounded-lg hover:bg-gray-50 text-gray-400 hover:text-orange-500" onClick={nextMonth}>
+          <button className="p-1.5 transition-colors border border-black/5 rounded-xl hover:bg-white text-gray-400 hover:text-accent" onClick={nextMonth}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M9 18l6-6-6-6"/>
             </svg>
@@ -298,24 +298,24 @@ export default function CalendarPage() {
           {/* Notification Toggle */}
           <button
             onClick={requestNotificationPermission}
-            className={`p-1 rounded-lg border transition-all ${notificationsEnabled ? 'bg-orange-500 text-white border-orange-600' : 'bg-gray-50 text-gray-400 border-gray-100 hover:text-orange-500'}`}
+            className={`p-1.5 rounded-xl border transition-all ${notificationsEnabled ? 'bg-accent text-white border-accent shadow-lg shadow-accent/20' : 'bg-white/40 text-gray-400 border-black/5 hover:text-accent'}`}
             title={notificationsEnabled ? 'Notifications Active' : 'Enable Notifications'}
           >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
             </svg>
           </button>
 
           {showInstallBtn && (
-              <button onClick={handleInstallClick} className="flex items-center justify-center w-7 h-7 text-orange-600 bg-orange-100 border border-orange-200 rounded-lg hover:bg-orange-200 transition-all active:scale-95 shadow-sm animate-bounce-subtle" title="Install App">
+              <button onClick={handleInstallClick} className="flex items-center justify-center w-8 h-8 text-accent bg-accent/10 border border-accent/20 rounded-xl hover:bg-accent/20 transition-all active:scale-95 shadow-sm" title="Install App">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
               </button>
             )}
             {isAdmin ? (
               <>
-                <button className="hidden px-2 py-1 text-[10px] font-bold text-gray-600 transition-colors border border-gray-100 rounded-lg lg:inline-flex hover:bg-gray-50" onClick={goToday}>Today</button>
-                <button className="hidden sm:flex items-center gap-1 px-2 py-1 text-[10px] font-black text-white transition-all bg-orange-500 rounded-lg hover:bg-orange-600 shadow-lg shadow-orange-100" onClick={() => openCreateModal()}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14M5 12h14"/></svg>
+                <button className="hidden px-3 py-1.5 text-xs font-bold text-gray-600 transition-colors border border-black/5 rounded-xl lg:inline-flex hover:bg-white" onClick={goToday}>Today</button>
+                <button className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-black text-white transition-all bg-accent rounded-xl hover:bg-accent-hover shadow-lg shadow-accent/20" onClick={() => openCreateModal()}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 5v14M5 12h14"/></svg>
                   <span>Event</span>
                 </button>
                 <button onClick={handleLogout} className="p-1 text-gray-400 hover:text-orange-500 transition-colors" title="Logout Admin">
@@ -331,19 +331,15 @@ export default function CalendarPage() {
         </div>
       </header>
 
-      {loading && (
-        <div className="relative h-0.5 overflow-hidden bg-gray-100">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500 to-transparent animate-shimmer" />
-        </div>
-      )}
+      {/* Removed Shimmer Loading Bar */}
 
-      <main className="flex flex-col flex-1 mx-2 my-2 sm:mx-6 sm:my-6 overflow-hidden bg-white border border-gray-200 shadow-sm rounded-2xl">
-        <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-gray-50/50">
-          <div className="flex items-center gap-2">
-             <span className="text-xs font-bold tracking-wider text-gray-500 uppercase">
-              {searchQuery ? `${filteredEvents.length} matches found` : `${events.length} event${events.length !== 1 ? 's' : ''} scheduled`}
+      <main className="flex flex-col flex-1 mx-2 my-2 sm:mx-6 sm:my-6 overflow-hidden glass rounded-[32px] border border-black/[0.03] shadow-2xl shadow-black/5">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-black/[0.03] bg-white/20">
+          <div className="flex items-center gap-3">
+             <span className="text-xs font-black tracking-widest text-gray-400 uppercase">
+              {searchQuery ? `${filteredEvents.length} matches` : `${events.length} event${events.length !== 1 ? 's' : ''}`}
             </span>
-            {isAdmin && <span className="px-2 py-0.5 text-[9px] font-black bg-orange-500 text-white rounded-full uppercase tracking-tighter">Admin Mode</span>}
+            {isAdmin && <span className="px-2 py-0.5 text-[10px] font-black bg-accent text-white rounded-full uppercase tracking-tighter shadow-lg shadow-accent/20">Admin</span>}
           </div>
           <div className="flex items-center gap-1.5">
             {filteredEvents.slice(0, 5).map((ev) => (

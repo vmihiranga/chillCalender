@@ -61,30 +61,28 @@ export default function DayEventsDrawer({
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-end pointer-events-none sm:items-stretch">
       <div
-        className="fixed inset-0 bg-black/30 backdrop-blur-sm pointer-events-auto animate-fade-in"
+        className="fixed inset-0 bg-black/10 backdrop-blur-md pointer-events-auto"
         onClick={onClose}
       />
-
       <div
         className={`
-          relative w-full sm:max-w-md h-[85vh] sm:h-screen bg-white shadow-2xl border-t sm:border-t-0 sm:border-l border-gray-200
-          flex flex-col pointer-events-auto rounded-t-3xl sm:rounded-none
-          animate-slide-up-mobile sm:animate-slide-in-right
+          relative w-full sm:max-w-md h-[85vh] sm:h-screen glass shadow-2xl border-t sm:border-t-0 sm:border-l border-black/5
+          flex flex-col pointer-events-auto rounded-t-[40px] sm:rounded-none
         `}
       >
         <div className="flex justify-center pt-3 pb-1 sm:hidden">
           <div className="w-12 h-1.5 bg-gray-200 rounded-full" />
         </div>
 
-        <div className="sticky top-0 z-10 px-6 py-6 border-b border-gray-100 bg-white/80 backdrop-blur-md">
+        <div className="sticky top-0 z-10 px-8 py-8 border-b border-black/[0.03] bg-white/40 backdrop-blur-xl">
           <div className="flex items-start justify-between">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[11px] font-black uppercase tracking-widest text-orange-500">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-accent">
                   {dayNames[date.getDay()]}
                 </span>
                 {isToday && (
-                  <span className="px-2 py-0.5 text-[9px] font-bold bg-orange-100 text-orange-600 rounded-full tracking-wider uppercase">
+                  <span className="px-2.5 py-0.5 text-[10px] font-black bg-accent text-white rounded-full tracking-tighter uppercase shadow-lg shadow-accent/20">
                     Today
                   </span>
                 )}
@@ -92,15 +90,15 @@ export default function DayEventsDrawer({
               <h2 className="text-4xl font-black leading-none text-gray-900">
                 {date.getDate()}
               </h2>
-              <p className="mt-1 text-sm font-medium text-gray-500">
+              <p className="mt-1 text-sm font-semibold text-gray-500">
                 {monthNames[date.getMonth()]} {date.getFullYear()}
               </p>
             </div>
             <button
               onClick={onClose}
-              className="p-2 transition-all bg-gray-50 border border-gray-100 rounded-xl hover:bg-gray-100 text-gray-400 hover:text-gray-600 active:scale-90"
+              className="p-2.5 transition-all bg-white border border-black/5 rounded-2xl hover:bg-gray-50 text-gray-400 hover:text-gray-900 active:scale-90"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                 <path d="M18 6L6 18M6 6l12 12"/>
               </svg>
             </button>
@@ -125,7 +123,7 @@ export default function DayEventsDrawer({
                 key={ev.id}
                 onClick={() => isAdmin && onEditEvent(ev)}
                 disabled={!isAdmin}
-                className={`group w-full flex items-stretch gap-4 p-4 transition-all bg-white border border-gray-100 rounded-2xl text-left ${isAdmin ? 'hover:shadow-xl hover:shadow-gray-200/50 hover:-translate-y-0.5 active:scale-[0.98]' : 'cursor-default'}`}
+                className={`group w-full flex items-stretch gap-5 p-5 transition-all bg-white/60 border border-black/[0.03] rounded-3xl text-left ${isAdmin ? 'hover:bg-white hover:shadow-2xl hover:shadow-black/5 hover:-translate-y-0.5 active:scale-[0.98]' : 'cursor-default'}`}
               >
                 <div
                   className="w-1.5 rounded-full transition-all group-hover:scale-x-150"
@@ -163,12 +161,12 @@ export default function DayEventsDrawer({
         </div>
 
         {isAdmin && (
-          <div className="p-6 border-t border-gray-100 bg-white">
+          <div className="p-8 border-t border-black/[0.03] bg-white/20">
             <button
-              className="flex items-center justify-center w-full gap-2 py-4 text-sm font-bold text-white transition-all bg-orange-500 rounded-xl hover:bg-orange-600 hover:shadow-lg hover:shadow-orange-200 active:scale-95"
+              className="flex items-center justify-center w-full gap-3 py-4 text-sm font-black text-white transition-all bg-accent rounded-2xl hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/30 active:scale-95"
               onClick={onAddEvent}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5">
                 <path d="M12 5v14M5 12h14"/>
               </svg>
               Schedule New Event

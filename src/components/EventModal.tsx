@@ -101,8 +101,8 @@ export default function EventModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-fade-in" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="w-full max-w-lg overflow-hidden bg-white shadow-2xl rounded-3xl animate-slide-up border border-gray-100">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/10 backdrop-blur-xl" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="w-full max-w-lg overflow-hidden glass shadow-[0_20px_60px_rgba(0,0,0,0.1)] rounded-[40px] border border-black/[0.03]">
         {/* Header */}
         <div className="px-8 py-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
           <div className="flex items-center gap-4">
@@ -110,12 +110,12 @@ export default function EventModal({
               className="w-4 h-4 rounded-full"
               style={{ background: form.color, boxShadow: `0 0 10px ${form.color}60` }}
             />
-            <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">
-              {mode === 'create' ? 'Schedule Event' : 'Edit Schedule'}
+            <h2 className="text-2xl font-black text-gray-900 tracking-tight">
+              {mode === 'create' ? 'New Event' : 'Edit Event'}
             </h2>
           </div>
-          <button onClick={onClose} className="p-2 text-gray-400 transition-colors bg-white border border-gray-100 rounded-xl hover:text-gray-600 hover:bg-gray-50">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <button onClick={onClose} className="p-2.5 text-gray-400 transition-all bg-white/40 border border-black/[0.03] rounded-2xl hover:text-gray-900 hover:bg-white backdrop-blur-md">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
               <path d="M18 6L6 18M6 6l12 12"/>
             </svg>
           </button>
@@ -126,33 +126,33 @@ export default function EventModal({
           <div className="space-y-6">
             {/* Title */}
             <div>
-              <label className="block mb-1.5 text-[11px] font-black uppercase tracking-wider text-gray-400">Title</label>
+              <label className="block mb-2 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">Title</label>
               <input
-                className="w-full px-5 py-3 text-sm font-bold text-gray-800 placeholder-gray-300 transition-all border border-gray-100 bg-gray-50 rounded-2xl focus:bg-white focus:ring-4 focus:ring-orange-50 focus:border-orange-500 outline-none"
+                className="w-full px-6 py-4 text-sm font-bold text-gray-800 placeholder-gray-300 transition-all border border-black/[0.03] bg-white/40 rounded-2xl focus:bg-white focus:ring-8 focus:ring-accent/5 focus:border-accent outline-none backdrop-blur-md"
                 type="text"
                 value={form.title}
                 onChange={(e) => handleChange('title', e.target.value)}
-                placeholder="What's happening?"
+                placeholder="Event name"
                 maxLength={80}
                 autoFocus
               />
             </div>
 
             {/* Date & Time */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-5">
               <div>
-                <label className="block mb-1.5 text-[11px] font-black uppercase tracking-wider text-gray-400">Date</label>
+                <label className="block mb-2 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">Date</label>
                 <input
-                  className="w-full px-5 py-3 text-sm font-bold text-gray-800 border border-gray-100 bg-gray-50 rounded-2xl focus:bg-white focus:ring-4 focus:ring-orange-50 focus:border-orange-500 outline-none"
+                  className="w-full px-6 py-4 text-sm font-bold text-gray-800 border border-black/[0.03] bg-white/40 rounded-2xl focus:bg-white focus:ring-8 focus:ring-accent/5 focus:border-accent outline-none backdrop-blur-md"
                   type="date"
                   value={form.date}
                   onChange={(e) => handleChange('date', e.target.value)}
                 />
               </div>
               <div>
-                <label className="block mb-1.5 text-[11px] font-black uppercase tracking-wider text-gray-400">Time</label>
+                <label className="block mb-2 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">Time</label>
                 <input
-                  className="w-full px-5 py-3 text-sm font-bold text-gray-800 border border-gray-100 bg-gray-50 rounded-2xl focus:bg-white focus:ring-4 focus:ring-orange-50 focus:border-orange-500 outline-none"
+                  className="w-full px-6 py-4 text-sm font-bold text-gray-800 border border-black/[0.03] bg-white/40 rounded-2xl focus:bg-white focus:ring-8 focus:ring-accent/5 focus:border-accent outline-none backdrop-blur-md"
                   type="time"
                   value={form.time}
                   onChange={(e) => handleChange('time', e.target.value)}
@@ -162,27 +162,27 @@ export default function EventModal({
 
             {/* Description */}
             <div>
-              <label className="block mb-1.5 text-[11px] font-black uppercase tracking-wider text-gray-400">Notes</label>
+              <label className="block mb-2 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">Notes</label>
               <textarea
-                className="w-full px-5 py-3 text-sm font-medium text-gray-600 placeholder-gray-300 transition-all border border-gray-100 bg-gray-50 rounded-2xl focus:bg-white focus:ring-4 focus:ring-orange-50 focus:border-orange-500 outline-none resize-none"
+                className="w-full px-6 py-4 text-sm font-semibold text-gray-600 placeholder-gray-300 transition-all border border-black/[0.03] bg-white/40 rounded-2xl focus:bg-white focus:ring-8 focus:ring-accent/5 focus:border-accent outline-none backdrop-blur-md resize-none"
                 value={form.description}
                 onChange={(e) => handleChange('description', e.target.value)}
-                placeholder="Add some details..."
+                placeholder="Description..."
                 rows={3}
               />
             </div>
 
             {/* Color */}
             <div>
-              <label className="block mb-2 text-[11px] font-black uppercase tracking-wider text-gray-400">Label Color</label>
-              <div className="flex flex-wrap gap-2.5">
+              <label className="block mb-3 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">Theme</label>
+              <div className="flex flex-wrap gap-3.5">
                 {COLOR_OPTIONS.map((c) => (
                   <button
                     key={c.value}
                     type="button"
                     title={c.label}
                     onClick={() => handleChange('color', c.value)}
-                    className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 active:scale-90 ${form.color === c.value ? 'border-white ring-2 ring-orange-500' : 'border-transparent'}`}
+                    className={`w-9 h-9 rounded-full border-4 transition-all hover:scale-110 active:scale-90 ${form.color === c.value ? 'border-white ring-2 ring-accent' : 'border-transparent opacity-60 hover:opacity-100'}`}
                     style={{ background: c.value }}
                   />
                 ))}
@@ -202,15 +202,15 @@ export default function EventModal({
               </button>
             ) : <div />}
             
-            <div className="flex items-center gap-3">
-              <button type="button" onClick={onClose} className="px-6 py-2.5 text-sm font-bold text-gray-400 transition-colors hover:text-gray-600">Cancel</button>
+            <div className="flex items-center gap-4">
+              <button type="button" onClick={onClose} className="px-6 py-3 text-sm font-bold text-gray-400 transition-colors hover:text-gray-600">Cancel</button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-8 py-2.5 text-sm font-black text-white bg-orange-500 rounded-xl hover:bg-orange-600 shadow-lg shadow-orange-100 hover:shadow-orange-200 transition-all hover:scale-[1.02] active:scale-95 disabled:grayscale disabled:scale-100 flex items-center gap-2"
+                className="px-10 py-3.5 text-sm font-black text-white bg-accent rounded-2xl hover:bg-accent-hover shadow-xl shadow-accent/20 transition-all active:scale-95 disabled:grayscale flex items-center gap-2"
               >
-                {loading ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : null}
-                {mode === 'create' ? 'Confirm' : 'Update'}
+                {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : null}
+                {mode === 'create' ? 'Create Event' : 'Save Changes'}
               </button>
             </div>
           </div>

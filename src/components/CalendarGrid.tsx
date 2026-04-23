@@ -76,11 +76,11 @@ export default function CalendarGrid({
   return (
     <div className="flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
       {/* Weekday headers */}
-      <div className="grid grid-cols-7 border-b border-gray-100 bg-gray-50/30 sticky top-0 z-10 backdrop-blur-sm">
+      <div className="grid grid-cols-7 border-b border-black/[0.03] bg-white/10 sticky top-0 z-10 backdrop-blur-xl">
         {WEEKDAYS.map((d) => (
           <div
             key={d}
-            className="py-3 text-[10px] font-extrabold text-center text-gray-400 uppercase tracking-[0.15em]"
+            className="py-4 text-[11px] font-black text-center text-gray-400 uppercase tracking-[0.2em]"
             style={{ fontSize: `${10 * zoom}px` }}
           >
             {d}
@@ -116,10 +116,10 @@ export default function CalendarGrid({
               key={day}
               onClick={() => onDayClick(cellDate)}
               className={`
-                relative flex flex-col items-start p-2 transition-all group
-                ${(idx + 1) % 7 !== 0 ? 'border-r border-gray-100' : ''}
-                ${idx < cells.length - 7 ? 'border-b border-gray-100' : ''}
-                ${isSelected ? 'bg-orange-50/50' : 'hover:bg-gray-50'}
+                relative flex flex-col items-start p-2.5 transition-all
+                ${(idx + 1) % 7 !== 0 ? 'border-r border-black/[0.03]' : ''}
+                ${idx < cells.length - 7 ? 'border-b border-black/[0.03]' : ''}
+                ${isSelected ? 'bg-accent/[0.03]' : 'hover:bg-white/40'}
               `}
               style={{ minHeight: `${baseHeight}px` }}
             >
@@ -127,16 +127,15 @@ export default function CalendarGrid({
               <div className="flex items-start justify-between w-full">
                 <span
                   className={`
-                    flex items-center justify-center rounded-full font-black
-                    transition-transform group-hover:scale-110
-                    ${isToday ? 'bg-orange-500 text-white shadow-lg shadow-orange-200' : ''}
-                    ${!isToday && isSelected ? 'text-orange-600' : ''}
-                    ${!isToday && !isSelected ? (isPast ? 'text-gray-300' : 'text-gray-600') : ''}
+                    flex items-center justify-center rounded-full font-black transition-all
+                    ${isToday ? 'bg-accent text-white shadow-xl shadow-accent/30 scale-105' : ''}
+                    ${!isToday && isSelected ? 'text-accent' : ''}
+                    ${!isToday && !isSelected ? (isPast ? 'text-gray-300' : 'text-gray-800') : ''}
                   `}
                   style={{ 
-                    width: `${28 * Math.max(0.8, zoom)}px`, 
-                    height: `${28 * Math.max(0.8, zoom)}px`,
-                    fontSize: `${12 * zoom}px` 
+                    width: `${30 * Math.max(0.8, zoom)}px`, 
+                    height: `${30 * Math.max(0.8, zoom)}px`,
+                    fontSize: `${13 * zoom}px` 
                   }}
                 >
                   {day}
@@ -159,15 +158,14 @@ export default function CalendarGrid({
                 ) : (
                   /* Standard/Zoomed Pills */
                   <div className="w-full space-y-1">
-                    {dayEvents.slice(0, pillVisibilityCount).map((ev) => (
                       <div
                         key={ev.id}
-                        className={`px-1.5 py-0.5 font-bold rounded border-l-2 truncate transition-all group-hover:translate-x-0.5 ${fontSizeFactor}`}
+                        className={`px-2 py-0.5 font-bold rounded-lg border-l-2 truncate transition-all ${fontSizeFactor}`}
                         style={{
-                          background: `${ev.color}15`,
+                          background: `${ev.color}10`,
                           borderLeftColor: ev.color,
                           color: ev.color,
-                          fontSize: `${9 * zoom}px`
+                          fontSize: `${10 * zoom}px`
                         }}
                       >
                         {ev.title}
